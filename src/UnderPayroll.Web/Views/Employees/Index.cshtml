@@ -1,4 +1,4 @@
-@model IEnumerable<Employee>
+@model IEnumerable<UnderPayroll.Web.ViewModels.Employees.EmployeeListItemViewModel>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Empleados</h1>
@@ -35,7 +35,7 @@
                     </p>
                     <p>
                         <strong>Departamento:</strong>
-                        @(employee.Department?.Name ?? "Sin departamento")
+                        @(employee.DepartmentName ?? "Sin departamento")
                     </p>
                     <p>
                         <strong>Fecha de contratación:</strong>
@@ -69,7 +69,27 @@
                 <div class="card-footer">
                     <a asp-action="Details" asp-route-id="@employee.Id" class="btn btn-info">Ver</a>
                     <a asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-warning">Editar</a>
-                    <a asp-action="Delete" asp-route-id="@employee.Id" class="btn btn-danger">Eliminar</a>
+                    @if (employee.IsActive)
+                    {
+                        <a asp-action="Deactivate"
+                           asp-route-id="@employee.Id"
+                           class="btn btn-danger">
+                            Desactivar
+                        </a>
+                    }
+                    else
+                    {
+                        <form asp-action="Activate"
+                              asp-route-id="@employee.Id"
+                              method="post"
+                              class="d-inline">
+
+                            <button type="submit" class="btn btn-success">
+                                Reactivar
+                            </button>
+
+                        </form>
+                    }
                 </div>
             </div>
         </div>

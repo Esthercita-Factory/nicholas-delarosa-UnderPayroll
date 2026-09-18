@@ -1,36 +1,47 @@
-@model Department
+@model UnderPayroll.Web.ViewModels.Departments.DepartmentDetailsViewModel
 
 <h1>Detalles del departamento</h1>
 
 <div class="card">
     <div class="card-body">
-        <h2 class="card-title">@Model.Name</h2>
-        <p><strong>Código:</strong> @Model.Code</p>
-        <p><strong>Descripción:</strong> @Model.Description</p>
-        <p><strong>Localización:</strong> @Model.Location</p>
+
+        <h2 class="card-title">
+            @Model.Name
+        </h2>
+
+        <p>
+            <strong>Código:</strong>
+            @Model.Code
+        </p>
+
+        <p>
+            <strong>Descripción:</strong>
+            @(Model.Description ?? "No especificada")
+        </p>
+
+        <p>
+            <strong>Localización:</strong>
+            @(Model.Location ?? "No especificada")
+        </p>
+
         <p>
             <strong>Presupuesto:</strong>
-            
-            @if (Model.Budget.HasValue)
-            {
-                @Model.Budget.Value.ToString("C", new System.Globalization.CultureInfo("es-CO"))
-            }
-            else
-            {
-                <span>No especificado</span>
-            }
+            @Model.BudgetTexto
         </p>
+
         <p>
             <strong>Teléfono:</strong>
-            @(string.IsNullOrEmpty(Model.Phone) ? "No especificado" : Model.Phone)
+            @(Model.Phone ?? "No especificado")
         </p>
+
         <p>
             <strong>Correo:</strong>
-            @(string.IsNullOrEmpty(Model.Email) ? "No especificado" : Model.Email)
+            @(Model.Email ?? "No especificado")
         </p>
+
         <p>
             <strong>Estado:</strong>
-            
+
             @if (Model.IsActive)
             {
                 <span class="badge bg-success">Activo</span>
@@ -40,27 +51,29 @@
                 <span class="badge bg-secondary">Inactivo</span>
             }
         </p>
+
         <p>
             <strong>Creado:</strong>
-            @Model.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+            @Model.CreatedAtTexto
         </p>
+
         <p>
             <strong>Última actualización:</strong>
-            
-            @if (Model.UpdatedAt.HasValue)
-            {
-                @Model.UpdatedAt.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
-            }
-            else
-            {
-                <span>Nunca actualizado</span>
-            }
+            @Model.UpdatedAtTexto
         </p>
+
     </div>
 </div>
 
-<br />
+<div class="mt-3">
+    <a asp-action="Edit"
+       asp-route-id="@Model.Id"
+       class="btn btn-warning">
+        Editar
+    </a>
 
-<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
-
-<a asp-action="Index" class="btn btn-secondary">Volver</a>
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Volver
+    </a>
+</div>

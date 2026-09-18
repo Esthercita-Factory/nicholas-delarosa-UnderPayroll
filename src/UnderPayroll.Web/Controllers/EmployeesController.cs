@@ -1,45 +1,40 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using UnderPayroll.Web.Data;
-using UnderPayroll.Web.Models;
+using UnderPayroll.Web.Services;
+using UnderPayroll.Web.ViewModels.Employees;
 
 namespace UnderPayroll.Web.Controllers;
 
 public class EmployeesController : Controller
 {
-    private readonly ApplicationDbContext _baseDeDatos;
+    private readonly IEmployeeService _employeeService;
+    private readonly IDepartmentService _departmentService;
 
-    public EmployeesController(ApplicationDbContext context)
+    public EmployeesController(
+        IEmployeeService employeeService,
+        IDepartmentService departmentService)
     {
-        _baseDeDatos = context;
+        _employeeService = employeeService;
+        _departmentService = departmentService;
     }
 
-    // READ
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(
+        bool soloActivos = false)
     {
-        var employees = await _baseDeDatos.Employees
-            .Include(e => e.Department)
-            .OrderBy(e => e.LastName)
-            .ThenBy(e => e.FirstName)
-            .ToListAsync();
+        ViewData["SoloActivos"] = soloActivos;
+
+        var employees =
+            await _employeeService.GetAllAsync(soloActivos);
 
         return View(employees);
     }
 
-    // DETAILS
-    public async Task<IActionResult> Details(Guid? id)
+    public async Task<IActionResult> Details(Guid id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
+        var employee =
+            await _employeeService.GetDetailsAsync(id);
 
-        var employee = await _baseDeDatos.Employees
-            .Include(e => e.Department)
-            .FirstOrDefaultAsync(e => e.Id == id);
-
-        if (employee == null)
+        if (employee is null)
         {
             return NotFound();
         }
@@ -47,153 +42,178 @@ public class EmployeesController : Controller
         return View(employee);
     }
 
-    // CREATE - GET
     [HttpGet]
-    public async Task<IActionResult> Create()
+    public IActionResult Create()
     {
-        await LoadDepartments();
-
-        return View();
+        return View(new EmployeeFormViewModel());
     }
 
-    // CREATE - POST
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Employee employee)
+    public async Task<IActionResult> Create(
+        EmployeeFormViewModel modelo)
     {
-        if (ModelState.IsValid)
+        await ValidateDuplicatesAsync(modelo);
+
+        if (modelo.HireDate == DateOnly.MinValue)
         {
-            employee.Id = Guid.NewGuid();
-            employee.CreatedAt = DateTime.UtcNow;
-
-            _baseDeDatos.Employees.Add(employee);
-
-            await _baseDeDatos.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index));
+            ModelState.AddModelError(
+                nameof(modelo.HireDate),
+                "La fecha de contratación es obligatoria.");
         }
 
-        await LoadDepartments(employee.DepartmentId);
-
-        return View(employee);
-    }
-
-    // EDIT - GET
-    [HttpGet]
-    public async Task<IActionResult> Edit(Guid? id)
-    {
-        if (id == null)
+        if (!ModelState.IsValid)
         {
-            return NotFound();
+            await LoadDepartments(modelo.DepartmentId);
+            return View(modelo);
         }
 
-        var employee = await _baseDeDatos.Employees
-            .FindAsync(id);
+        await _employeeService.CreateAsync(modelo);
 
-        if (employee == null)
-        {
-            return NotFound();
-        }
-
-        await LoadDepartments(employee.DepartmentId);
-
-        return View(employee);
-    }
-
-    // EDIT - POST
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, Employee employee)
-    {
-        if (id != employee.Id)
-        {
-            return NotFound();
-        }
-
-        if (ModelState.IsValid)
-        {
-            var existingEmployee = await _baseDeDatos.Employees
-                .FindAsync(id);
-
-            if (existingEmployee == null)
-            {
-                return NotFound();
-            }
-
-            existingEmployee.Document = employee.Document;
-            existingEmployee.FirstName = employee.FirstName;
-            existingEmployee.LastName = employee.LastName;
-            existingEmployee.Email = employee.Email;
-            existingEmployee.Phone = employee.Phone;
-            existingEmployee.Position = employee.Position;
-            existingEmployee.Salary = employee.Salary;
-            existingEmployee.HireDate = employee.HireDate;
-            existingEmployee.DepartmentId = employee.DepartmentId;
-            existingEmployee.IsActive = employee.IsActive;
-            existingEmployee.UpdatedAt = DateTime.UtcNow;
-
-            await _baseDeDatos.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        await LoadDepartments(employee.DepartmentId);
-
-        return View(employee);
-    }
-
-    // DELETE - GET
-    [HttpGet]
-    public async Task<IActionResult> Delete(Guid? id)
-    {
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        var employee = await _baseDeDatos.Employees
-            .Include(e => e.Department)
-            .FirstOrDefaultAsync(e => e.Id == id);
-
-        if (employee == null)
-        {
-            return NotFound();
-        }
-
-        return View(employee);
-    }
-
-    // DELETE - POST
-    [HttpPost, ActionName("Delete")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(Guid id)
-    {
-        var employee = await _baseDeDatos.Employees
-            .FindAsync(id);
-
-        if (employee != null)
-        {
-            _baseDeDatos.Employees.Remove(employee);
-
-            await _baseDeDatos.SaveChangesAsync();
-        }
+        TempData["Mensaje"] =
+            $"El empleado {modelo.FirstName} {modelo.LastName} se creó correctamente.";
 
         return RedirectToAction(nameof(Index));
     }
 
-    // Cargar departamentos para el select
-    private async Task LoadDepartments(Guid? selectedDepartment = null)
+    [HttpGet]
+    public async Task<IActionResult> Edit(Guid id)
     {
-        var departments = await _baseDeDatos.Departments
-            .Where(d => d.IsActive)
-            .OrderBy(d => d.Name)
-            .ToListAsync();
+        var modelo =
+            await _employeeService.GetForEditAsync(id);
+
+        if (modelo is null)
+        {
+            return NotFound();
+        }
+
+        await LoadDepartments(modelo.DepartmentId);
+
+        return View(modelo);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(
+        Guid id,
+        EmployeeFormViewModel modelo)
+    {
+        if (id != modelo.Id)
+        {
+            return BadRequest();
+        }
+
+        await ValidateDuplicatesAsync(modelo);
+
+        if (modelo.HireDate == DateOnly.MinValue)
+        {
+            ModelState.AddModelError(
+                nameof(modelo.HireDate),
+                "La fecha de contratación es obligatoria.");
+        }
+
+        if (!ModelState.IsValid)
+        {
+            await LoadDepartments(modelo.DepartmentId);
+            return View(modelo);
+        }
+
+        if (!await _employeeService.UpdateAsync(modelo))
+        {
+            return NotFound();
+        }
+
+        TempData["Mensaje"] =
+            $"El empleado {modelo.FirstName} {modelo.LastName} se actualizó correctamente.";
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Deactivate(Guid id)
+    {
+        var employee =
+            await _employeeService.GetDetailsAsync(id);
+
+        if (employee is null)
+        {
+            return NotFound();
+        }
+
+        return View(employee);
+    }
+
+    [HttpPost]
+    [ActionName(nameof(Deactivate))]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeactivateConfirmed(
+        Guid id)
+    {
+        if (!await _employeeService.DeactivateAsync(id))
+        {
+            return NotFound();
+        }
+
+        TempData["Mensaje"] =
+            "El empleado se desactivó correctamente.";
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Activate(Guid id)
+    {
+        if (!await _employeeService.ActivateAsync(id))
+        {
+            return NotFound();
+        }
+
+        TempData["Mensaje"] =
+            "El empleado se reactivó correctamente.";
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    private async Task ValidateDuplicatesAsync(
+        EmployeeFormViewModel modelo)
+    {
+        var excluirId =
+            modelo.Id == Guid.Empty
+                ? (Guid?)null
+                : modelo.Id;
+
+        if (!string.IsNullOrWhiteSpace(modelo.Document) &&
+            await _employeeService.DocumentExistsAsync(
+                modelo.Document,
+                excluirId))
+        {
+            ModelState.AddModelError(
+                nameof(modelo.Document),
+                "Ya existe un empleado con ese documento.");
+        }
+
+        if (!string.IsNullOrWhiteSpace(modelo.Email) &&
+            await _employeeService.EmailExistsAsync(
+                modelo.Email,
+                excluirId))
+        {
+            ModelState.AddModelError(
+                nameof(modelo.Email),
+                "Ya existe un empleado con ese correo.");
+        }
+    }
+
+    private async Task LoadDepartments(
+        Guid? selectedDepartment = null)
+    {
+        var departments =
+            await _departmentService.GetAllAsync(true);
 
         ViewBag.Departments = new SelectList(
             departments,
             "Id",
             "Name",
-            selectedDepartment
-        );
+            selectedDepartment);
     }
 }

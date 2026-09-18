@@ -1,10 +1,11 @@
-@model Employee
+@model UnderPayroll.Web.ViewModels.Employees.EmployeeDetailsViewModel
 
 <h1>Detalles del empleado</h1>
 
 <div class="card">
     <div class="card-body">
-        <h2 class="card-title">@Model.FirstName @Model.LastName</h2>
+
+        <h2>@Model.FullName</h2>
 
         <p>
             <strong>Documento:</strong>
@@ -13,7 +14,7 @@
 
         <p>
             <strong>Email:</strong>
-            @(Model.Email ?? "No especificado")
+            @Model.Email
         </p>
 
         <p>
@@ -28,25 +29,17 @@
 
         <p>
             <strong>Salario:</strong>
-
-            @if (Model.Salary.HasValue)
-            {
-                @Model.Salary.Value.ToString("C", new System.Globalization.CultureInfo("es-CO"))
-            }
-            else
-            {
-                <span>No especificado</span>
-            }
+            @Model.SalaryTexto
         </p>
 
         <p>
             <strong>Fecha de contratación:</strong>
-            @Model.HireDate.ToString("dd/MM/yyyy")
+            @Model.HireDateTexto
         </p>
 
         <p>
             <strong>Departamento:</strong>
-            @(Model.Department?.Name ?? "Sin departamento")
+            @Model.DepartmentName
         </p>
 
         <p>
@@ -64,27 +57,26 @@
 
         <p>
             <strong>Creado:</strong>
-            @Model.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+            @Model.CreatedAtTexto
         </p>
 
         <p>
             <strong>Última actualización:</strong>
-
-            @if (Model.UpdatedAt.HasValue)
-            {
-                @Model.UpdatedAt.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
-            }
-            else
-            {
-                <span>Nunca actualizado</span>
-            }
+            @Model.UpdatedAtTexto
         </p>
 
     </div>
 </div>
 
-<br />
+<div class="mt-3">
+    <a asp-action="Edit"
+       asp-route-id="@Model.Id"
+       class="btn btn-warning">
+        Editar
+    </a>
 
-<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
-
-<a asp-action="Index" class="btn btn-secondary">Volver</a>
+    <a asp-action="Index"
+       class="btn btn-secondary">
+        Volver
+    </a>
+</div>

@@ -69,7 +69,7 @@ public class DepartmentService : IDepartmentService
 
     public Task<bool> DeactivateAsync(Guid id)
     {
-        return ChangeStatusAsync(id, true);
+        return ChangeStatusAsync(id, false);
     }
 
     public Task<bool> ActivateAsync(Guid id)

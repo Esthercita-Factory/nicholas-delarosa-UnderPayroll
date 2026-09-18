@@ -28,7 +28,7 @@ public class DepartmentFormViewModel
     public decimal? Budget { get; set; }
     
     [Display(Name = "Teléfono")]
-    [StringLength(120, ErrorMessage = "El teléfono no puede superar los {1} caracteres.")]
+    [StringLength(20, ErrorMessage = "El teléfono no puede superar los {1} caracteres.")]
     [Phone(ErrorMessage = "El teléfono no tiene un formato válido.")]
     public string? Phone { get; set; }
     
