@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using UnderPayroll.Web.Data;
+using UnderPayroll.Web.Repositories;
+using UnderPayroll.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,10 @@ builder.Services.AddControllersWithViews();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
 
