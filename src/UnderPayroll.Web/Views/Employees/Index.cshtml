@@ -1,0 +1,77 @@
+@model IEnumerable<Employee>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Empleados</h1>
+    <a asp-action="Create" class="btn btn-primary">Crear empleado</a>
+</div>
+
+<div class="row">
+    @foreach (var employee in Model)
+    {
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h4 class="card-title">@employee.FirstName @employee.LastName</h4>
+                            <small class="text-muted">@employee.Document</small>
+                        </div>
+                        
+                        @if (employee.IsActive)
+                        {
+                            <span class="badge bg-success">Activo</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Inactivo</span>
+                        }
+                    </div>
+                    
+                    <hr />
+                    
+                    <p>
+                        <strong>Cargo:</strong>
+                        @employee.Position
+                    </p>
+                    <p>
+                        <strong>Departamento:</strong>
+                        @(employee.Department?.Name ?? "Sin departamento")
+                    </p>
+                    <p>
+                        <strong>Fecha de contratación:</strong>
+                        @employee.HireDate.ToString("dd/MM/yyyy")
+                    </p>
+                    
+                    @if (employee.Salary.HasValue)
+                    {
+                        <p>
+                            <strong>Salario:</strong>
+                            @employee.Salary.Value.ToString("C", new System.Globalization.CultureInfo("es-CO"))
+                        </p>
+                    }
+                    else
+                    {
+                        <span>—————</span>
+                    }
+                    
+                    @if (!string.IsNullOrEmpty(employee.Email))
+                    {
+                        <p>
+                            <strong>Email:</strong>
+                            @employee.Email
+                        </p>
+                    }
+                    else
+                    {
+                        <span>—————</span>
+                    }
+                </div>
+                <div class="card-footer">
+                    <a asp-action="Details" asp-route-id="@employee.Id" class="btn btn-info">Ver</a>
+                    <a asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-warning">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@employee.Id" class="btn btn-danger">Eliminar</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

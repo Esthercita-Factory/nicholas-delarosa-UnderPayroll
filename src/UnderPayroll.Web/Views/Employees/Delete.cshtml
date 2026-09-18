@@ -1,0 +1,47 @@
+@model Employee
+
+<h1>Eliminar empleado</h1>
+
+<div class="alert alert-danger">
+    <h4>¿Seguro que quieres eliminar este empleado?</h4>
+    <p>Esta acción no se puede deshacer.</p>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h2>@Model.FirstName @Model.LastName </h2>
+
+        <p>
+            <strong>Documento:</strong>
+            @Model.Document
+        </p>
+
+        <p>
+            <strong>Cargo:</strong>
+            @Model.Position
+        </p>
+
+        <p>
+            <strong>Departamento:</strong>
+            @(Model.Department?.Name ?? "Sin departamento")
+        </p>
+
+        <p>
+            <strong>Email:</strong>
+            @(Model.Email ?? "No especificado")
+        </p>
+
+        <p>
+            <strong>Teléfono:</strong>
+            @(Model.Phone ?? "No especificado")
+        </p>
+    </div>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

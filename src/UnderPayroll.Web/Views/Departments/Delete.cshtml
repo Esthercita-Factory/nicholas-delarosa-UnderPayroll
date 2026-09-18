@@ -1,0 +1,72 @@
+@model Department
+
+<h1>Eliminar departamento</h1>
+
+<div class="alert alert-danger">
+    <h4>¿Seguro que quieres eliminar este departamento?</h4>
+    <p>Esta acción no se puede deshacer.</p>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h2>@Model.Name</h2>
+
+        <p>
+            <strong>Código:</strong>
+            @Model.Code
+        </p>
+
+        <p>
+            <strong>Descripción:</strong>
+            @Model.Description
+        </p>
+
+        <p>
+            <strong>Localización:</strong>
+            @Model.Location
+        </p>
+
+        @if (Model.Budget.HasValue)
+        {
+            <p>
+                <strong>Presupuesto:</strong>
+                @Model.Budget.Value.ToString("C", new System.Globalization.CultureInfo("es-CO"))
+            </p>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.Phone))
+        {
+            <p>
+                <strong>Teléfono:</strong>
+                @Model.Phone
+            </p>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.Email))
+        {
+            <p>
+                <strong>Correo:</strong>
+                @Model.Email
+            </p>
+        }
+
+        <p>
+            <strong>Estado:</strong>
+
+            @if (Model.IsActive)
+            {
+                <span class="badge bg-success">Activo</span>
+            }
+            else
+            {
+                <span class="badge bg-secondary">Inactivo</span>
+            }
+        </p>
+    </div>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

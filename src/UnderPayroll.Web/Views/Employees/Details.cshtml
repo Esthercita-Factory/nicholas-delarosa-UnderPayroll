@@ -1,0 +1,90 @@
+@model Employee
+
+<h1>Detalles del empleado</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title">@Model.FirstName @Model.LastName</h2>
+
+        <p>
+            <strong>Documento:</strong>
+            @Model.Document
+        </p>
+
+        <p>
+            <strong>Email:</strong>
+            @(Model.Email ?? "No especificado")
+        </p>
+
+        <p>
+            <strong>Teléfono:</strong>
+            @(Model.Phone ?? "No especificado")
+        </p>
+
+        <p>
+            <strong>Cargo:</strong>
+            @Model.Position
+        </p>
+
+        <p>
+            <strong>Salario:</strong>
+
+            @if (Model.Salary.HasValue)
+            {
+                @Model.Salary.Value.ToString("C", new System.Globalization.CultureInfo("es-CO"))
+            }
+            else
+            {
+                <span>No especificado</span>
+            }
+        </p>
+
+        <p>
+            <strong>Fecha de contratación:</strong>
+            @Model.HireDate.ToString("dd/MM/yyyy")
+        </p>
+
+        <p>
+            <strong>Departamento:</strong>
+            @(Model.Department?.Name ?? "Sin departamento")
+        </p>
+
+        <p>
+            <strong>Estado:</strong>
+
+            @if (Model.IsActive)
+            {
+                <span class="badge bg-success">Activo</span>
+            }
+            else
+            {
+                <span class="badge bg-secondary">Inactivo</span>
+            }
+        </p>
+
+        <p>
+            <strong>Creado:</strong>
+            @Model.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+        </p>
+
+        <p>
+            <strong>Última actualización:</strong>
+
+            @if (Model.UpdatedAt.HasValue)
+            {
+                @Model.UpdatedAt.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+            }
+            else
+            {
+                <span>Nunca actualizado</span>
+            }
+        </p>
+
+    </div>
+</div>
+
+<br />
+
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+
+<a asp-action="Index" class="btn btn-secondary">Volver</a>
