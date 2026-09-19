@@ -59,7 +59,8 @@ public class EmployeeFormViewModel
     public decimal Salary { get; set; }
 
     [Display(Name = "Fecha de contratación")]
-    public DateOnly HireDate { get; set; }
+    [Required(ErrorMessage = "La fecha de contratación es obligatoria.")]
+    public DateOnly? HireDate { get; set; }
 
     [Display(Name = "Departamento")]
     [Required(ErrorMessage = "El departamento es obligatorio.")]

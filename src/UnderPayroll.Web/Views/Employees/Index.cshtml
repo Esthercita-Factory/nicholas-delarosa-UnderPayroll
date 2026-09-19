@@ -69,27 +69,7 @@
                 <div class="card-footer">
                     <a asp-action="Details" asp-route-id="@employee.Id" class="btn btn-info">Ver</a>
                     <a asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-warning">Editar</a>
-                    @if (employee.IsActive)
-                    {
-                        <a asp-action="Deactivate"
-                           asp-route-id="@employee.Id"
-                           class="btn btn-danger">
-                            Desactivar
-                        </a>
-                    }
-                    else
-                    {
-                        <form asp-action="Activate"
-                              asp-route-id="@employee.Id"
-                              method="post"
-                              class="d-inline">
-
-                            <button type="submit" class="btn btn-success">
-                                Reactivar
-                            </button>
-
-                        </form>
-                    }
+                    <a asp-action="Delete" asp-route-id="@employee.Id" class="btn btn-danger">Eliminar</a>
                 </div>
             </div>
         </div>

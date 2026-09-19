@@ -14,6 +14,8 @@ public interface IEmployeeService
     Task CreateAsync(EmployeeFormViewModel modelo);
 
     Task<bool> UpdateAsync(EmployeeFormViewModel modelo);
+    
+    Task<bool> DeleteAsync(Guid id);
 
     Task<bool> DeactivateAsync(Guid id);
 

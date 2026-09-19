@@ -1,12 +1,11 @@
 @model UnderPayroll.Web.ViewModels.Departments.DepartmentDetailsViewModel
 
-<h1>Desactivar departamento</h1>
+<h1>Eliminar departamento</h1>
 
-<div class="alert alert-warning">
-    <h4>¿Seguro que quieres desactivar este departamento?</h4>
+<div class="alert alert-danger">
+    <h4>¿Seguro que quieres eliminar este departamento?</h4>
     <p>
-        El registro no se eliminará de la base de datos.
-        Quedará inactivo y podrá reactivarse posteriormente.
+        Esta acción eliminará permanentemente el departamento.
     </p>
 </div>
 
@@ -33,16 +32,18 @@
     </div>
 </div>
 
-<form asp-action="Deactivate"
+<form asp-action="Delete"
       asp-route-id="@Model.Id"
       method="post">
 
-    <button type="submit" class="btn btn-warning">
-        Sí, desactivar
+    <button type="submit"
+            class="btn btn-danger">
+        Sí, eliminar
     </button>
 
     <a asp-action="Index"
        class="btn btn-secondary">
         Cancelar
     </a>
+
 </form>

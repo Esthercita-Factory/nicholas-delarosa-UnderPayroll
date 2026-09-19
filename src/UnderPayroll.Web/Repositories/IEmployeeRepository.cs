@@ -12,6 +12,8 @@ public interface IEmployeeRepository
     Task AddAsync(Employee employee);
 
     Task UpdateAsync(Employee employee);
+    
+    Task<bool> DeleteAsync(Guid id);
 
     Task<bool> DocumentExistsAsync(
         string document,

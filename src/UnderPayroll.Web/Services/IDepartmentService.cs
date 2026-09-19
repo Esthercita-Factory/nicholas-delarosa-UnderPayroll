@@ -14,6 +14,8 @@ public interface IDepartmentService
     
     Task<bool> UpdateAsync(DepartmentFormViewModel modelo);
     
+    Task<bool> DeleteAsync(Guid id);
+    
     Task<bool> DeactivateAsync(Guid id);
     
     Task<bool> ActivateAsync(Guid id);

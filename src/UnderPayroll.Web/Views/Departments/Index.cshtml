@@ -105,28 +105,11 @@
                         Editar
                     </a>
 
-                    @if (department.IsActive)
-                    {
-                        <a asp-action="Deactivate"
-                           asp-route-id="@department.Id"
-                           class="btn btn-danger">
-                            Desactivar
-                        </a>
-                    }
-                    else
-                    {
-                        <form asp-action="Activate"
-                              asp-route-id="@department.Id"
-                              method="post"
-                              class="d-inline">
-
-                            <button type="submit"
-                                    class="btn btn-success">
-                                Reactivar
-                            </button>
-
-                        </form>
-                    }
+                    <a asp-action="Delete"
+                       asp-route-id="@department.Id"
+                       class="btn btn-danger">
+                        Eliminar
+                    </a>
 
                 </div>
 

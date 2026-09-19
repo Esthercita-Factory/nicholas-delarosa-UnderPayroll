@@ -1,11 +1,11 @@
 @model UnderPayroll.Web.ViewModels.Employees.EmployeeDetailsViewModel
 
-<h1>Desactivar empleado</h1>
+<h1>Eliminar empleado</h1>
 
-<div class="alert alert-warning">
-    <h4>¿Seguro que quieres desactivar este empleado?</h4>
+<div class="alert alert-danger">
+    <h4>¿Seguro que quieres eliminar este empleado?</h4>
     <p>
-        El registro permanecerá en la base de datos y podrá reactivarse después.
+        Esta acción eliminará permanentemente el registro de la base de datos.
     </p>
 </div>
 
@@ -37,12 +37,13 @@
     </div>
 </div>
 
-<form asp-action="Deactivate"
+<form asp-action="Delete"
       asp-route-id="@Model.Id"
       method="post">
 
-    <button type="submit" class="btn btn-warning">
-        Sí, desactivar
+    <button type="submit"
+            class="btn btn-danger">
+        Sí, eliminar
     </button>
 
     <a asp-action="Index"

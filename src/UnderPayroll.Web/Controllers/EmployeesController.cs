@@ -43,9 +43,13 @@ public class EmployeesController : Controller
     }
 
     [HttpGet]
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
-        return View(new EmployeeFormViewModel());
+        var modelo = new EmployeeFormViewModel();
+
+        await LoadDepartments();
+
+        return View(modelo);
     }
 
     [HttpPost]
@@ -54,13 +58,6 @@ public class EmployeesController : Controller
         EmployeeFormViewModel modelo)
     {
         await ValidateDuplicatesAsync(modelo);
-
-        if (modelo.HireDate == DateOnly.MinValue)
-        {
-            ModelState.AddModelError(
-                nameof(modelo.HireDate),
-                "La fecha de contratación es obligatoria.");
-        }
 
         if (!ModelState.IsValid)
         {
@@ -105,13 +102,6 @@ public class EmployeesController : Controller
 
         await ValidateDuplicatesAsync(modelo);
 
-        if (modelo.HireDate == DateOnly.MinValue)
-        {
-            ModelState.AddModelError(
-                nameof(modelo.HireDate),
-                "La fecha de contratación es obligatoria.");
-        }
-
         if (!ModelState.IsValid)
         {
             await LoadDepartments(modelo.DepartmentId);
@@ -130,7 +120,7 @@ public class EmployeesController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Deactivate(Guid id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         var employee =
             await _employeeService.GetDetailsAsync(id);
@@ -144,33 +134,17 @@ public class EmployeesController : Controller
     }
 
     [HttpPost]
-    [ActionName(nameof(Deactivate))]
+    [ActionName(nameof(Delete))]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeactivateConfirmed(
-        Guid id)
+    public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (!await _employeeService.DeactivateAsync(id))
+        if (!await _employeeService.DeleteAsync(id))
         {
             return NotFound();
         }
 
         TempData["Mensaje"] =
-            "El empleado se desactivó correctamente.";
-
-        return RedirectToAction(nameof(Index));
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Activate(Guid id)
-    {
-        if (!await _employeeService.ActivateAsync(id))
-        {
-            return NotFound();
-        }
-
-        TempData["Mensaje"] =
-            "El empleado se reactivó correctamente.";
+            "El empleado se eliminó correctamente.";
 
         return RedirectToAction(nameof(Index));
     }

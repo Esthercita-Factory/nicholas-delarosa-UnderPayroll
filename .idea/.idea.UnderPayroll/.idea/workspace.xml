@@ -16,6 +16,16 @@
   <component name="ChangeListManager">
     <list default="true" id="f0576972-08bf-4e47-a8f1-b1dcd2708edf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnderPayroll/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnderPayroll/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Controllers/EmployeesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Controllers/EmployeesController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/EmployeeRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/EmployeeRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/IDepartmentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/IDepartmentRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/IEmployeeRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/IEmployeeRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/EmployeeService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/EmployeeService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/IEmployeeService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/IEmployeeService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/ViewModels/Employees/EmployeeFormViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/ViewModels/Employees/EmployeeFormViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/ViewModels/Employees/EmployeeListItemViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/ViewModels/Employees/EmployeeListItemViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Deactivate.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Delete.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Index.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

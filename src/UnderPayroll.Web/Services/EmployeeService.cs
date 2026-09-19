@@ -126,6 +126,11 @@ public class EmployeeService : IEmployeeService
 
         return true;
     }
+    
+    public Task<bool> DeleteAsync(Guid id)
+    {
+        return _repository.DeleteAsync(id);
+    }
 
     public Task<bool> DeactivateAsync(Guid id)
     {
@@ -201,8 +206,10 @@ public class EmployeeService : IEmployeeService
         employee.Salary =
             modelo.Salary;
 
-        employee.HireDate =
-            modelo.HireDate;
+        if (modelo.HireDate.HasValue)
+        {
+            employee.HireDate = modelo.HireDate.Value;
+        }
 
         if (modelo.DepartmentId.HasValue)
         {

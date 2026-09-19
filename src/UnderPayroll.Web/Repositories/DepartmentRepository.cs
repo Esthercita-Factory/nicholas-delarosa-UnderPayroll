@@ -47,6 +47,23 @@ public class DepartmentRepository : IDepartmentRepository
         _baseDeDatos.Departments.Update(department);
         await _baseDeDatos.SaveChangesAsync();
     }
+    
+    public async Task<bool> DeleteAsync(Guid id)
+    {
+        var department = await _baseDeDatos.Departments
+            .FirstOrDefaultAsync(d => d.Id == id);
+
+        if (department is null)
+        {
+            return false;
+        }
+
+        _baseDeDatos.Departments.Remove(department);
+
+        await _baseDeDatos.SaveChangesAsync();
+
+        return true;
+    }
 
     public async Task<bool> CodeExistsAsync(string code, Guid? excluirId = null)
     {

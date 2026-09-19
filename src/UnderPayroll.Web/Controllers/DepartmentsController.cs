@@ -95,44 +95,33 @@ public class DepartmentsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> Deactivate(Guid id)
+    [HttpGet]
+    public async Task<IActionResult> Delete(Guid id)
     {
-        var departamento = await _departmentService.GetDetailsAsync(id);
+        var department =
+            await _departmentService.GetDetailsAsync(id);
 
-        if (departamento is null)
+        if (department is null)
         {
             return NotFound();
         }
-        
-        return View(departamento);
+
+        return View(department);
     }
 
     [HttpPost]
-    [ActionName(nameof(Deactivate))]
+    [ActionName(nameof(Delete))]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeactivateConfirmed(Guid id)
+    public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        if (!await _departmentService.DeactivateAsync(id))
-        {
-            return NotFound();
-        }
-        
-        TempData["Mensaje"] = "El departamento se desactivó correctamente.";
-        
-        return RedirectToAction(nameof(Index));
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Activate(Guid id)
-    {
-        if (!await _departmentService.ActivateAsync(id))
+        if (!await _departmentService.DeleteAsync(id))
         {
             return NotFound();
         }
 
-        TempData["Mensaje"] = "El departamento se reactivó correctamente.";
-        
+        TempData["Mensaje"] =
+            "El departamento se eliminó correctamente.";
+
         return RedirectToAction(nameof(Index));
     }
 

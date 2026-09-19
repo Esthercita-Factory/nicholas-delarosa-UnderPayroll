@@ -51,6 +51,23 @@ public class EmployeeRepository : IEmployeeRepository
         _context.Employees.Update(employee);
         await _context.SaveChangesAsync();
     }
+    
+    public async Task<bool> DeleteAsync(Guid id)
+    {
+        var employee = await _context.Employees
+            .FirstOrDefaultAsync(e => e.Id == id);
+
+        if (employee is null)
+        {
+            return false;
+        }
+
+        _context.Employees.Remove(employee);
+
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
 
     public async Task<bool> DocumentExistsAsync(
         string document,

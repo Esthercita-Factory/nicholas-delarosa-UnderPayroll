@@ -66,6 +66,11 @@ public class DepartmentService : IDepartmentService
         
         return true;
     }
+    
+    public Task<bool> DeleteAsync(Guid id)
+    {
+        return _repository.DeleteAsync(id);
+    }
 
     public Task<bool> DeactivateAsync(Guid id)
     {

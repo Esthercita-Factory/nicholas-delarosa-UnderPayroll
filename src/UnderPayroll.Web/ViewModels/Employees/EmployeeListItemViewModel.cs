@@ -16,7 +16,7 @@ public class EmployeeListItemViewModel
 
     public string Position { get; init; } = string.Empty;
 
-    public decimal Salary { get; init; }
+    public decimal? Salary { get; init; }
 
     public DateOnly HireDate { get; init; }
 
