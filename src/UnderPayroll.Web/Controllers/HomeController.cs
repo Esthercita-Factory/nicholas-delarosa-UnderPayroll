@@ -1,19 +1,22 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using UnderPayroll.Web.Models;
+using UnderPayroll.Web.Services;
 
 namespace UnderPayroll.Web.Controllers;
 
 public class HomeController : Controller
 {
-    public IActionResult Index()
+    private readonly IDashboardService _dashboardService;
+
+    public HomeController(IDashboardService dashboardService)
     {
-        return View();
+        _dashboardService = dashboardService;
     }
 
-    public IActionResult Privacy()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        return View(await _dashboardService.GetSummaryAsync());
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

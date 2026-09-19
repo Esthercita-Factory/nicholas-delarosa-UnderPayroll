@@ -5,7 +5,8 @@ namespace UnderPayroll.Web.Services;
 public interface IEmployeeService
 {
     Task<IEnumerable<EmployeeListItemViewModel>> GetAllAsync(
-        bool soloActivos = false);
+        bool? activo = null,
+        string? busqueda = null);
 
     Task<EmployeeDetailsViewModel?> GetDetailsAsync(Guid id);
 

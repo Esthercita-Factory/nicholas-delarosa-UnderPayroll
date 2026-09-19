@@ -1,31 +1,662 @@
-html {
-  font-size: 14px;
+/*
+ * Estilos de UnderPayroll.
+ *
+ * Se apoya en Bootstrap 5.3 y sobrescribe sus variables para darle a la
+ * aplicación una identidad propia: base tinta oscura, acento verde azulado
+ * y un ámbar puntual para detalles.
+ */
+
+/* Tokens comunes a ambos temas */
+:root {
+  --up-ink: #10202f;
+  --up-ink-soft: #1b2f43;
+  --up-teal: #0f766e;
+  --up-teal-dark: #0b5c56;
+  --up-amber: #d99a2b;
+  --up-radius: 0.6rem;
+
+  --bs-body-font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --bs-primary: var(--up-teal);
+  --bs-primary-rgb: 15, 118, 110;
+  --bs-border-radius: 0.45rem;
 }
 
-@media (min-width: 768px) {
+/*
+ * Tema claro (por defecto). El tema activo lo marca el atributo
+ * data-bs-theme del elemento html, que gestiona site.js.
+ */
+:root,
+[data-bs-theme="light"] {
+  --up-surface: #ffffff;
+  --up-canvas: #f3f4f1;
+  --up-line: #dfe3e0;
+  --up-muted: #5d6b76;
+  --up-heading: #10202f;
+  --up-accent: #0f766e;
+  --up-accent-dark: #0b5c56;
+  --up-accent-soft: #e3f1ef;
+  --up-subtle: #f8f9f7;
+  --up-hover: #fafbfa;
+  --up-shadow: 0 1px 2px rgba(16, 32, 47, 0.06), 0 4px 14px rgba(16, 32, 47, 0.05);
+
+  --up-active-fg: #0b5c3b;
+  --up-active-bg: #dcf1e5;
+  --up-inactive-fg: #5d6b76;
+  --up-inactive-bg: #e8ebe9;
+
+  --up-warn-bg: #fdf5e4;
+  --up-warn-line: #efd9a5;
+  --up-danger-bg: #fbebea;
+  --up-danger-line: #f0c5c1;
+
+  --bs-body-bg: var(--up-canvas);
+  --bs-body-color: #1d2a35;
+  --bs-link-color: var(--up-accent);
+  --bs-link-color-rgb: 15, 118, 110;
+  --bs-link-hover-color: var(--up-accent-dark);
+  --bs-link-hover-color-rgb: 11, 92, 86;
+  --bs-border-color: var(--up-line);
+  --bs-secondary-color: var(--up-muted);
+}
+
+/* Tema oscuro */
+[data-bs-theme="dark"] {
+  --up-surface: #16263a;
+  --up-canvas: #0d1824;
+  --up-line: #2a3d52;
+  --up-muted: #9aabba;
+  --up-heading: #eef2f5;
+  --up-accent: #3fb8ac;
+  --up-accent-dark: #66cfc4;
+  --up-accent-soft: #123a3f;
+  --up-subtle: #1b2f45;
+  --up-hover: #1a2d42;
+  --up-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 4px 14px rgba(0, 0, 0, 0.25);
+
+  --up-active-fg: #7fdcae;
+  --up-active-bg: #12382b;
+  --up-inactive-fg: #a9b6c1;
+  --up-inactive-bg: #26384b;
+
+  --up-warn-bg: #3a2f14;
+  --up-warn-line: #6b5420;
+  --up-danger-bg: #3d1d1d;
+  --up-danger-line: #6e2f2c;
+
+  --bs-body-bg: var(--up-canvas);
+  --bs-body-color: #d5dde3;
+  --bs-link-color: var(--up-accent);
+  --bs-link-color-rgb: 63, 184, 172;
+  --bs-link-hover-color: var(--up-accent-dark);
+  --bs-link-hover-color-rgb: 102, 207, 196;
+  --bs-border-color: var(--up-line);
+  --bs-secondary-color: var(--up-muted);
+}
+
+html {
+  font-size: 15px;
+}
+
+@media (min-width: 992px) {
   html {
     font-size: 16px;
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+/* El pie de página queda al fondo aunque el contenido sea corto */
 body {
-  margin-bottom: 60px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.app-main {
+  flex: 1 0 auto;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+h1, h2, h3, h4 {
+  letter-spacing: -0.01em;
+  color: var(--up-heading);
+}
+
+/* Barra de navegación */
+.app-navbar {
+  background: var(--up-ink);
+  border-bottom: 3px solid var(--up-amber);
+}
+
+.app-navbar .navbar-brand {
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Marca: un cuadrado con las iniciales de la aplicación */
+.brand-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  background: var(--up-teal);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.brand-name span {
+  color: var(--up-amber);
+}
+
+.app-navbar .nav-link {
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 500;
+  padding: 0.5rem 0.9rem;
+  border-radius: 0.4rem;
+}
+
+.app-navbar .nav-link:hover,
+.app-navbar .nav-link:focus {
+  color: #fff;
+  background: var(--up-ink-soft);
+}
+
+.app-navbar .nav-link.active {
+  color: #fff;
+  background: var(--up-ink-soft);
+  box-shadow: inset 0 -2px 0 var(--up-amber);
+}
+
+.app-navbar .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.app-navbar .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+/* Encabezado de página: título, descripción y acciones principales */
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.page-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.page-header .page-subtitle {
+  margin: 0.25rem 0 0;
+  color: var(--up-muted);
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--up-accent);
+}
+
+/* Contenedor base para tablas, formularios y fichas */
+.panel {
+  background: var(--up-surface);
+  border: 1px solid var(--up-line);
+  border-radius: var(--up-radius);
+  box-shadow: var(--up-shadow);
+}
+
+.panel-body {
+  padding: 1.5rem;
+}
+
+.panel-narrow {
+  max-width: 44rem;
+}
+
+/* Botones */
+.btn {
+  font-weight: 500;
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--up-teal);
+  --bs-btn-border-color: var(--up-teal);
+  --bs-btn-hover-bg: var(--up-teal-dark);
+  --bs-btn-hover-border-color: var(--up-teal-dark);
+  --bs-btn-active-bg: var(--up-teal-dark);
+  --bs-btn-active-border-color: var(--up-teal-dark);
+  --bs-btn-disabled-bg: var(--up-teal);
+  --bs-btn-disabled-border-color: var(--up-teal);
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--up-accent);
+  --bs-btn-border-color: var(--up-accent);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--up-teal);
+  --bs-btn-hover-border-color: var(--up-teal);
+  --bs-btn-active-bg: var(--up-teal-dark);
+  --bs-btn-active-border-color: var(--up-teal-dark);
+}
+
+.btn:focus-visible,
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: var(--up-accent);
+  box-shadow: 0 0 0 0.2rem rgba(15, 118, 110, 0.22);
+}
+
+/* Filtros: control segmentado sobre las listas */
+.filter-group .btn {
+  --bs-btn-color: var(--up-muted);
+  --bs-btn-border-color: var(--up-line);
+  --bs-btn-bg: var(--up-surface);
+  --bs-btn-hover-bg: var(--up-accent-soft);
+  --bs-btn-hover-color: var(--up-accent-dark);
+  --bs-btn-hover-border-color: var(--up-line);
+}
+
+.filter-group .btn.active {
+  color: #fff;
+  background: var(--up-teal);
+  border-color: var(--up-teal);
+}
+
+/* Tablas de datos */
+.data-table {
+  margin: 0;
+  --bs-table-bg: transparent;
+}
+
+.data-table thead th {
+  padding: 0.85rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--up-muted);
+  background: var(--up-subtle);
+  border-bottom: 1px solid var(--up-line);
+  white-space: nowrap;
+}
+
+.data-table tbody td {
+  padding: 0.9rem 1rem;
+  vertical-align: middle;
+  border-color: var(--up-line);
+}
+
+.data-table tbody tr:hover {
+  background: var(--up-hover);
+}
+
+.data-table .cell-title {
+  font-weight: 600;
+  color: var(--up-heading);
+}
+
+.data-table .cell-meta {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--up-muted);
+}
+
+.data-table .cell-clip {
+  max-width: 18rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Las cifras se alinean a la derecha y con ancho uniforme */
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cell-actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Estado activo o inactivo */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-active {
+  color: var(--up-active-fg);
+  background: var(--up-active-bg);
+}
+
+.status-inactive {
+  color: var(--up-inactive-fg);
+  background: var(--up-inactive-bg);
+}
+
+/* Estado vacío de las listas */
+.empty-state {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--up-muted);
+}
+
+.empty-state h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.35rem;
+}
+
+/* Fichas de detalle: pares etiqueta y valor */
+.detail-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1.25rem 2rem;
+  margin: 0;
+}
+
+.detail-list dt {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--up-muted);
+}
+
+.detail-list dd {
+  margin: 0.2rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+.detail-list .detail-wide {
+  grid-column: 1 / -1;
+}
+
+.panel-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--up-line);
+}
+
+.panel-heading h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.panel-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--up-line);
+  background: var(--up-subtle);
+  border-radius: 0 0 var(--up-radius) var(--up-radius);
+}
+
+/* Formularios */
+.form-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.form-control,
+.form-select {
+  padding: 0.55rem 0.75rem;
+}
+
+/* Avisos de confirmación (desactivar y eliminar) */
+.confirm-notice {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  border-radius: var(--up-radius);
+  border: 1px solid;
+  border-left-width: 5px;
+}
+
+.confirm-notice h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+}
+
+.confirm-notice p {
+  margin: 0;
+}
+
+.confirm-warning {
+  background: var(--up-warn-bg);
+  border-color: var(--up-warn-line);
+  border-left-color: var(--up-amber);
+}
+
+.confirm-danger {
+  background: var(--up-danger-bg);
+  border-color: var(--up-danger-line);
+  border-left-color: #c0392b;
+}
+
+/* Mensajes de resultado tras una acción */
+.flash {
+  border: 0;
+  border-left: 5px solid var(--up-teal);
+  background: var(--up-accent-soft);
+  color: var(--up-accent-dark);
+  border-radius: var(--up-radius);
+}
+
+/* Portada */
+.hero {
+  padding: 2.5rem 2rem;
+  margin-bottom: 1.75rem;
+  border-radius: var(--up-radius);
+  color: #fff;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(217, 154, 43, 0.28), transparent 45%),
+    linear-gradient(135deg, var(--up-ink) 0%, var(--up-ink-soft) 100%);
+}
+
+.hero h1 {
+  color: #fff;
+  font-size: 2.1rem;
+  font-weight: 700;
+  max-width: 30rem;
+}
+
+.hero p {
+  max-width: 34rem;
+  margin: 0.75rem 0 0;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.hero .eyebrow {
+  color: var(--up-amber);
+}
+
+.module-card {
+  display: block;
+  height: 100%;
+  padding: 1.5rem;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.module-card:hover {
+  color: inherit;
+  border-color: var(--up-accent);
+  transform: translateY(-2px);
+}
+
+.module-card h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.4rem;
+}
+
+.module-card p {
+  margin-bottom: 1rem;
+  color: var(--up-muted);
+}
+
+.module-card .module-link {
+  font-weight: 600;
+  color: var(--up-accent);
+}
+
+/* Pie de página */
+.app-footer {
+  flex-shrink: 0;
+  padding: 1.25rem 0;
+  margin-top: 2rem;
+  font-size: 0.875rem;
+  color: var(--up-muted);
+  border-top: 1px solid var(--up-line);
+  background: var(--up-surface);
+}
+
+/* Botón para alternar entre tema claro y oscuro */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0.4rem;
+}
+
+.theme-toggle:hover {
+  color: #fff;
+  background: var(--up-ink-soft);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--up-amber);
+  outline-offset: 2px;
+}
+
+/* Barra de búsqueda y filtros de los listados */
+.list-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.search-form {
+  display: flex;
+  flex: 1 1 22rem;
+  max-width: 34rem;
+  gap: 0.5rem;
+}
+
+/* Resumen de la portada */
+.stat-card {
+  height: 100%;
+  padding: 1.25rem 1.5rem;
+}
+
+.stat-card .stat-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--up-muted);
+}
+
+.stat-card .stat-value {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--up-heading);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-card .stat-note {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.85rem;
+  color: var(--up-muted);
+}
+
+/* Barras de distribución de empleados por departamento */
+.bar-row {
+  display: grid;
+  grid-template-columns: minmax(6rem, 12rem) 1fr 2.5rem;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.bar-row:last-child {
+  margin-bottom: 0;
+}
+
+.bar-track {
+  height: 0.6rem;
+  border-radius: 999px;
+  background: var(--up-subtle);
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--up-teal);
+}
+
+/* Enlace para saltar directo al contenido con el teclado */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 2000;
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+  background: var(--up-amber);
+  color: var(--up-ink);
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 1rem;
 }

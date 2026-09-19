@@ -14,10 +14,11 @@ public class EmployeeService : IEmployeeService
     }
 
     public async Task<IEnumerable<EmployeeListItemViewModel>> GetAllAsync(
-        bool soloActivos = false)
+        bool? activo = null,
+        string? busqueda = null)
     {
         var employees =
-            await _repository.GetAllAsync(soloActivos);
+            await _repository.GetAllAsync(activo, busqueda);
 
         return employees
             .Select(e => new EmployeeListItemViewModel

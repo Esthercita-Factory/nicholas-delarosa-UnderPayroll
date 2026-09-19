@@ -13,9 +13,9 @@ public class DepartmentService : IDepartmentService
         _repository = repository;
     }
 
-    public async Task<IEnumerable<DepartmentListItemViewModel>> GetAllAsync(bool soloActivos = false)
+    public async Task<IEnumerable<DepartmentListItemViewModel>> GetAllAsync(bool? activo = null, string? busqueda = null)
     {
-        var departments = await _repository.GetAllAsync(soloActivos);
+        var departments = await _repository.GetAllAsync(activo, busqueda);
 
         return departments
             .Select(ToListItemViewModel)
@@ -67,6 +67,11 @@ public class DepartmentService : IDepartmentService
         return true;
     }
     
+    public Task<bool> HasEmployeesAsync(Guid id)
+    {
+        return _repository.HasEmployeesAsync(id);
+    }
+
     public Task<bool> DeleteAsync(Guid id)
     {
         return _repository.DeleteAsync(id);

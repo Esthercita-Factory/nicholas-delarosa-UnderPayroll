@@ -1,0 +1,4 @@
+@* Etiqueta de estado. Recibe un bool: true para activo, false para inactivo. *@
+@model bool
+
+<span class="status @(Model ? "status-active" : "status-inactive")">@(Model ? "Activo" : "Inactivo")</span>

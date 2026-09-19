@@ -15,17 +15,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0576972-08bf-4e47-a8f1-b1dcd2708edf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Deactivate.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Deactivate.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnderPayroll/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnderPayroll/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Controllers/DepartmentsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Controllers/DepartmentsController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Controllers/EmployeesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Controllers/EmployeesController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Controllers/HomeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/DepartmentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/DepartmentRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/EmployeeRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/EmployeeRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/IDepartmentRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/IDepartmentRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/IEmployeeRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/IEmployeeRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/DepartmentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/DepartmentService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/EmployeeService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/EmployeeService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/IDepartmentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/IDepartmentService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/IEmployeeService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/IEmployeeService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/ViewModels/Employees/EmployeeFormViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/ViewModels/Employees/EmployeeFormViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/ViewModels/Employees/EmployeeListItemViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/ViewModels/Employees/EmployeeListItemViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Deactivate.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Delete.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Create.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Create.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Delete.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Delete.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Details.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Details.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Edit.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Edit.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Create.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Create.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Delete.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Delete.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Details.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Details.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Edit.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Edit.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Home/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Home/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Home/Privacy.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Shared/Error.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Shared/Error.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Shared/_Layout.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Shared/_Layout.cshtml.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/_ViewImports.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/_ViewImports.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/wwwroot/css/site.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/wwwroot/css/site.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/wwwroot/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/wwwroot/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/wwwroot/js/site.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/wwwroot/js/site.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

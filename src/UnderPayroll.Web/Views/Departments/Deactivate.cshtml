@@ -1,23 +1,23 @@
 @model UnderPayroll.Web.ViewModels.Departments.DepartmentDetailsViewModel
 @{
-    ViewData["Title"] = "Eliminar departamento";
+    ViewData["Title"] = "Desactivar departamento";
 }
 
 <div class="page-header">
     <div>
         <span class="eyebrow">Departamentos</span>
-        <h1>Eliminar departamento</h1>
+        <h1>Desactivar departamento</h1>
     </div>
 </div>
 
 <div class="panel panel-narrow">
     <div class="panel-body">
-        <div class="confirm-notice confirm-danger" role="alert">
+        <div class="confirm-notice confirm-warning" role="alert">
             <div>
-                <h2>¿Eliminar este departamento?</h2>
+                <h2>¿Desactivar este departamento?</h2>
                 <p>
-                    La acción elimina el registro de forma permanente. No es posible
-                    eliminar un departamento que tenga empleados asociados.
+                    El registro no se elimina de la base de datos. Quedará inactivo
+                    y podrás reactivarlo cuando lo necesites.
                 </p>
             </div>
         </div>
@@ -35,15 +35,11 @@
                 <dt>Localización</dt>
                 <dd>@(Model.Location ?? "No especificada")</dd>
             </div>
-            <div>
-                <dt>Estado</dt>
-                <dd><partial name="_StatusBadge" model="Model.IsActive"/></dd>
-            </div>
         </dl>
     </div>
 
-    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="panel-footer">
-        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <form asp-action="Deactivate" asp-route-id="@Model.Id" method="post" class="panel-footer">
+        <button type="submit" class="btn btn-primary">Sí, desactivar</button>
         <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
     </form>
 </div>

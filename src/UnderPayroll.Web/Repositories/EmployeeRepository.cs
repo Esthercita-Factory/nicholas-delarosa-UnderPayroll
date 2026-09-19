@@ -14,16 +14,31 @@ public class EmployeeRepository : IEmployeeRepository
     }
 
     public async Task<IEnumerable<Employee>> GetAllAsync(
-        bool soloActivos = false)
+        bool? activo = null,
+        string? busqueda = null)
     {
         var query = _context.Employees
             .AsNoTracking()
             .Include(e => e.Department)
             .AsQueryable();
 
-        if (soloActivos)
+        if (activo.HasValue)
         {
-            query = query.Where(e => e.IsActive);
+            query = query.Where(e => e.IsActive == activo.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(busqueda))
+        {
+            // Búsqueda sin distinguir mayúsculas por nombre, documento,
+            // correo, cargo o departamento
+            var patron = SearchPattern.Contains(busqueda);
+
+            query = query.Where(e =>
+                EF.Functions.ILike(e.FirstName + " " + e.LastName, patron) ||
+                EF.Functions.ILike(e.Document, patron) ||
+                EF.Functions.ILike(e.Email, patron) ||
+                EF.Functions.ILike(e.Position, patron) ||
+                (e.Department != null && EF.Functions.ILike(e.Department.Name, patron)));
         }
 
         return await query

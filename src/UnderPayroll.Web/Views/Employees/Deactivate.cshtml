@@ -1,21 +1,21 @@
 @model UnderPayroll.Web.ViewModels.Employees.EmployeeDetailsViewModel
 @{
-    ViewData["Title"] = "Eliminar empleado";
+    ViewData["Title"] = "Desactivar empleado";
 }
 
 <div class="page-header">
     <div>
         <span class="eyebrow">Empleados</span>
-        <h1>Eliminar empleado</h1>
+        <h1>Desactivar empleado</h1>
     </div>
 </div>
 
 <div class="panel panel-narrow">
     <div class="panel-body">
-        <div class="confirm-notice confirm-danger" role="alert">
+        <div class="confirm-notice confirm-warning" role="alert">
             <div>
-                <h2>¿Eliminar a este empleado?</h2>
-                <p>La acción elimina el registro de forma permanente y no se puede deshacer.</p>
+                <h2>¿Desactivar a este empleado?</h2>
+                <p>El registro permanece en la base de datos y podrás reactivarlo más adelante.</p>
             </div>
         </div>
 
@@ -40,15 +40,11 @@
                 <dt>Correo electrónico</dt>
                 <dd>@Model.Email</dd>
             </div>
-            <div>
-                <dt>Estado</dt>
-                <dd><partial name="_StatusBadge" model="Model.IsActive"/></dd>
-            </div>
         </dl>
     </div>
 
-    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="panel-footer">
-        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <form asp-action="Deactivate" asp-route-id="@Model.Id" method="post" class="panel-footer">
+        <button type="submit" class="btn btn-primary">Sí, desactivar</button>
         <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
     </form>
 </div>

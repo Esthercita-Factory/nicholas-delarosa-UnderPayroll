@@ -5,7 +5,8 @@ namespace UnderPayroll.Web.Repositories;
 public interface IEmployeeRepository
 {
     Task<IEnumerable<Employee>> GetAllAsync(
-        bool soloActivos = false);
+        bool? activo = null,
+        string? busqueda = null);
 
     Task<Employee?> GetByIdAsync(Guid id);
 

@@ -13,17 +13,28 @@ public class DepartmentRepository : IDepartmentRepository
         _baseDeDatos = context;
     }
 
-    public async Task<IEnumerable<Department>> GetAllAsync(bool soloActivos = false)
+    public async Task<IEnumerable<Department>> GetAllAsync(bool? activo = null, string? busqueda = null)
     {
         var consulta = _baseDeDatos.Departments
             .AsNoTracking()
             .AsQueryable();
 
-        if (soloActivos)
+        if (activo.HasValue)
         {
-            consulta = consulta.Where(d => d.IsActive);
+            consulta = consulta.Where(d => d.IsActive == activo.Value);
         }
-        
+
+        if (!string.IsNullOrWhiteSpace(busqueda))
+        {
+            // Búsqueda sin distinguir mayúsculas por nombre, código o localización
+            var patron = SearchPattern.Contains(busqueda);
+
+            consulta = consulta.Where(d =>
+                EF.Functions.ILike(d.Name, patron) ||
+                EF.Functions.ILike(d.Code, patron) ||
+                (d.Location != null && EF.Functions.ILike(d.Location, patron)));
+        }
+
         return await consulta
             .OrderByDescending(d => d.IsActive)
             .ThenBy(d => d.Name)
@@ -46,6 +57,13 @@ public class DepartmentRepository : IDepartmentRepository
     {
         _baseDeDatos.Departments.Update(department);
         await _baseDeDatos.SaveChangesAsync();
+    }
+    
+    public async Task<bool> HasEmployeesAsync(Guid departmentId)
+    {
+        return await _baseDeDatos.Employees
+            .AsNoTracking()
+            .AnyAsync(e => e.DepartmentId == departmentId);
     }
     
     public async Task<bool> DeleteAsync(Guid id)

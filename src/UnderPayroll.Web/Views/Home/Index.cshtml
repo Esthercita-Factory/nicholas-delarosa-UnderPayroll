@@ -1,8 +1,88 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@model UnderPayroll.Web.ViewModels.Home.DashboardViewModel
+@{
+    ViewData["Title"] = "Inicio";
+    var cultura = new System.Globalization.CultureInfo("es-CO");
+
+    // Referencia para escalar las barras del reparto por departamento
+    var maximo = Math.Max(1, Model.Headcount.Select(h => h.Employees).DefaultIfEmpty(0).Max());
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<section class="hero">
+    <span class="eyebrow">Recursos humanos</span>
+    <h1>La estructura de tu organización, en un solo lugar.</h1>
+    <p>
+        Administra los departamentos y el personal de la empresa, con su cargo,
+        salario y estado, sin perder el historial de cada registro.
+    </p>
+</section>
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="panel stat-card">
+            <span class="stat-label">Empleados activos</span>
+            <span class="stat-value">@Model.ActiveEmployees</span>
+            <span class="stat-note">@Model.InactiveEmployees inactivos</span>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="panel stat-card">
+            <span class="stat-label">Departamentos activos</span>
+            <span class="stat-value">@Model.ActiveDepartments</span>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6">
+        <div class="panel stat-card">
+            <span class="stat-label">Nómina mensual</span>
+            <span class="stat-value">@Model.MonthlyPayroll.ToString("C0", cultura)</span>
+            <span class="stat-note">Suma de los salarios de los empleados activos</span>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="panel h-100">
+            <div class="panel-heading">
+                <h2 class="h5">Empleados por departamento</h2>
+            </div>
+            <div class="panel-body">
+                @if (Model.Headcount.Count == 0)
+                {
+                    <p class="text-secondary mb-0">Aún no hay departamentos activos.</p>
+                }
+                else
+                {
+                    foreach (var fila in Model.Headcount)
+                    {
+                        <div class="bar-row">
+                            <span class="text-truncate" title="@fila.Name">@fila.Name</span>
+                            <div class="bar-track" role="img" aria-label="@fila.Employees empleados en @fila.Name">
+                                <div class="bar-fill" style="width: @((fila.Employees * 100 / maximo).ToString(System.Globalization.CultureInfo.InvariantCulture))%"></div>
+                            </div>
+                            <span class="num">@fila.Employees</span>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="row g-4">
+            <div class="col-12">
+                <a class="panel module-card" asp-controller="Departments" asp-action="Index">
+                    <h2>Departamentos</h2>
+                    <p>Códigos, ubicaciones, presupuestos y datos de contacto de cada área.</p>
+                    <span class="module-link">Ver departamentos &rarr;</span>
+                </a>
+            </div>
+            <div class="col-12">
+                <a class="panel module-card" asp-controller="Employees" asp-action="Index">
+                    <h2>Empleados</h2>
+                    <p>Cargos, salarios, fechas de contratación y departamento de cada persona.</p>
+                    <span class="module-link">Ver empleados &rarr;</span>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,0 +1,27 @@
+@* Buscador y filtro de estado para los listados. Conserva ambos al cambiar uno. *@
+@model ListFilterViewModel
+
+<div class="list-toolbar">
+    <form method="get" class="search-form" role="search">
+        @if (Model.Activo.HasValue)
+        {
+            <input type="hidden" name="activo" value="@Model.Activo.Value.ToString().ToLowerInvariant()"/>
+        }
+        <input type="search" name="busqueda" value="@Model.Busqueda" class="form-control"
+               placeholder="@Model.Placeholder" aria-label="Buscar"/>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+        @if (!string.IsNullOrWhiteSpace(Model.Busqueda))
+        {
+            <a asp-action="Index" asp-route-activo="@Model.Activo" class="btn btn-outline-secondary">Limpiar</a>
+        }
+    </form>
+
+    <div class="btn-group filter-group" role="group" aria-label="Filtrar por estado">
+        <a asp-action="Index" asp-route-busqueda="@Model.Busqueda"
+           class="btn @(Model.Activo is null ? "active" : "")">Todos</a>
+        <a asp-action="Index" asp-route-activo="true" asp-route-busqueda="@Model.Busqueda"
+           class="btn @(Model.Activo is true ? "active" : "")">Solo activos</a>
+        <a asp-action="Index" asp-route-activo="false" asp-route-busqueda="@Model.Busqueda"
+           class="btn @(Model.Activo is false ? "active" : "")">Solo inactivos</a>
+    </div>
+</div>

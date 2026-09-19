@@ -13,11 +13,12 @@ public class DepartmentsController : Controller
         _departmentService = departmentService;
     }
 
-    public async Task<IActionResult> Index(bool soloActivos = false)
+    public async Task<IActionResult> Index(bool? activo = null, string? busqueda = null)
     {
-        ViewData["SoloActivos"] = soloActivos;
+        ViewData["Activo"] = activo;
+        ViewData["Busqueda"] = busqueda;
         
-        var datos = await _departmentService.GetAllAsync(soloActivos);
+        var datos = await _departmentService.GetAllAsync(activo, busqueda);
         
         return View(datos);
     }
@@ -52,7 +53,7 @@ public class DepartmentsController : Controller
         
         await _departmentService.CreateAsync(modelo);
 
-        TempData["Message"] = $"El departamento {modelo.Name} se creó correctamente.";
+        TempData["Mensaje"] = $"El departamento {modelo.Name} se creó correctamente.";
         
         return RedirectToAction(nameof(Index));
     }
@@ -94,7 +95,7 @@ public class DepartmentsController : Controller
         
         return RedirectToAction(nameof(Index));
     }
-
+    
     [HttpGet]
     public async Task<IActionResult> Delete(Guid id)
     {
@@ -114,6 +115,14 @@ public class DepartmentsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
+        if (await _departmentService.HasEmployeesAsync(id))
+        {
+            TempData["Mensaje"] =
+                "No se puede eliminar el departamento porque tiene empleados asociados.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
         if (!await _departmentService.DeleteAsync(id))
         {
             return NotFound();
@@ -122,6 +131,47 @@ public class DepartmentsController : Controller
         TempData["Mensaje"] =
             "El departamento se eliminó correctamente.";
 
+        return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Deactivate(Guid id)
+    {
+        var departamento = await _departmentService.GetDetailsAsync(id);
+
+        if (departamento is null)
+        {
+            return NotFound();
+        }
+        
+        return View(departamento);
+    }
+
+    [HttpPost]
+    [ActionName(nameof(Deactivate))]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeactivateConfirmed(Guid id)
+    {
+        if (!await _departmentService.DeactivateAsync(id))
+        {
+            return NotFound();
+        }
+        
+        TempData["Mensaje"] = "El departamento se desactivó correctamente.";
+        
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Activate(Guid id)
+    {
+        if (!await _departmentService.ActivateAsync(id))
+        {
+            return NotFound();
+        }
+
+        TempData["Mensaje"] = "El departamento se reactivó correctamente.";
+        
         return RedirectToAction(nameof(Index));
     }
 

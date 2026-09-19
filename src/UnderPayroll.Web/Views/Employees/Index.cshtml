@@ -1,77 +1,101 @@
 @model IEnumerable<UnderPayroll.Web.ViewModels.Employees.EmployeeListItemViewModel>
+@{
+    ViewData["Title"] = "Empleados";
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Empleados</h1>
-    <a asp-action="Create" class="btn btn-primary">Crear empleado</a>
+    // Filtros vigentes, definidos por el controlador
+    var filtros = new ListFilterViewModel(
+        ViewData["Activo"] as bool?,
+        ViewData["Busqueda"] as string,
+        "Buscar por nombre, documento, correo, cargo o departamento");
+    var hayFiltros = filtros.Activo.HasValue || !string.IsNullOrWhiteSpace(filtros.Busqueda);
+    var cultura = new System.Globalization.CultureInfo("es-CO");
+}
+
+<div class="page-header">
+    <div>
+        <span class="eyebrow">Personal</span>
+        <h1>Empleados</h1>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">Nuevo empleado</a>
 </div>
 
-<div class="row">
-    @foreach (var employee in Model)
+<partial name="_ListFilters" model="filtros"/>
+
+<div class="panel">
+    @if (!Model.Any())
     {
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h4 class="card-title">@employee.FirstName @employee.LastName</h4>
-                            <small class="text-muted">@employee.Document</small>
-                        </div>
-                        
-                        @if (employee.IsActive)
-                        {
-                            <span class="badge bg-success">Activo</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-secondary">Inactivo</span>
-                        }
-                    </div>
-                    
-                    <hr />
-                    
-                    <p>
-                        <strong>Cargo:</strong>
-                        @employee.Position
-                    </p>
-                    <p>
-                        <strong>Departamento:</strong>
-                        @(employee.DepartmentName ?? "Sin departamento")
-                    </p>
-                    <p>
-                        <strong>Fecha de contratación:</strong>
-                        @employee.HireDate.ToString("dd/MM/yyyy")
-                    </p>
-                    
-                    @if (employee.Salary.HasValue)
-                    {
-                        <p>
-                            <strong>Salario:</strong>
-                            @employee.Salary.Value.ToString("C", new System.Globalization.CultureInfo("es-CO"))
-                        </p>
-                    }
-                    else
-                    {
-                        <span>—————</span>
-                    }
-                    
-                    @if (!string.IsNullOrEmpty(employee.Email))
-                    {
-                        <p>
-                            <strong>Email:</strong>
-                            @employee.Email
-                        </p>
-                    }
-                    else
-                    {
-                        <span>—————</span>
-                    }
-                </div>
-                <div class="card-footer">
-                    <a asp-action="Details" asp-route-id="@employee.Id" class="btn btn-info">Ver</a>
-                    <a asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-warning">Editar</a>
-                    <a asp-action="Delete" asp-route-id="@employee.Id" class="btn btn-danger">Eliminar</a>
-                </div>
-            </div>
+        <div class="empty-state">
+            <h2>No hay empleados para mostrar</h2>
+            <p class="mb-0">@(hayFiltros ? "Prueba con otra búsqueda o cambia el filtro." : "Registra al primer empleado para verlo en este listado.")</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table data-table">
+                <thead>
+                <tr>
+                    <th>Empleado</th>
+                    <th>Cargo</th>
+                    <th>Departamento</th>
+                    <th>Contratación</th>
+                    <th class="num">Salario</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var employee in Model)
+                {
+                    <tr>
+                        <td>
+                            <span class="cell-title">@employee.FirstName @employee.LastName</span>
+                            <span class="cell-meta">@employee.Document</span>
+                        </td>
+                        <td>@employee.Position</td>
+                        <td>@(employee.DepartmentName ?? "Sin departamento")</td>
+                        <td>@employee.HireDate.ToString("dd/MM/yyyy")</td>
+                        <td class="num">
+                            @(employee.Salary.HasValue ? employee.Salary.Value.ToString("C", cultura) : "No especificado")
+                        </td>
+                        <td><partial name="_StatusBadge" model="employee.IsActive"/></td>
+                        <td class="cell-actions">
+                            <a asp-action="Details" asp-route-id="@employee.Id"
+                               class="btn btn-sm btn-outline-primary">Ver</a>
+                            <a asp-action="Edit" asp-route-id="@employee.Id"
+                               class="btn btn-sm btn-outline-secondary">Editar</a>
+
+                            @* Acciones menos frecuentes agrupadas en un menú *@
+                            <div class="dropdown d-inline-block">
+                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">Más</button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    @if (employee.IsActive)
+                                    {
+                                        <li>
+                                            <a class="dropdown-item" asp-action="Deactivate"
+                                               asp-route-id="@employee.Id">Desactivar</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <form asp-action="Activate" asp-route-id="@employee.Id" method="post">
+                                                <button type="submit" class="dropdown-item">Reactivar</button>
+                                            </form>
+                                        </li>
+                                    }
+                                    <li>
+                                        <a class="dropdown-item text-danger" asp-action="Delete"
+                                           asp-route-id="@employee.Id">Eliminar</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
         </div>
     }
 </div>

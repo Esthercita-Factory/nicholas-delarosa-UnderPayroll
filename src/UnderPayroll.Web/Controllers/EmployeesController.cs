@@ -19,12 +19,14 @@ public class EmployeesController : Controller
     }
 
     public async Task<IActionResult> Index(
-        bool soloActivos = false)
+        bool? activo = null,
+        string? busqueda = null)
     {
-        ViewData["SoloActivos"] = soloActivos;
+        ViewData["Activo"] = activo;
+        ViewData["Busqueda"] = busqueda;
 
         var employees =
-            await _employeeService.GetAllAsync(soloActivos);
+            await _employeeService.GetAllAsync(activo, busqueda);
 
         return View(employees);
     }
@@ -118,7 +120,7 @@ public class EmployeesController : Controller
 
         return RedirectToAction(nameof(Index));
     }
-
+    
     [HttpGet]
     public async Task<IActionResult> Delete(Guid id)
     {
@@ -145,6 +147,52 @@ public class EmployeesController : Controller
 
         TempData["Mensaje"] =
             "El empleado se eliminó correctamente.";
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Deactivate(Guid id)
+    {
+        var employee =
+            await _employeeService.GetDetailsAsync(id);
+
+        if (employee is null)
+        {
+            return NotFound();
+        }
+
+        return View(employee);
+    }
+
+    [HttpPost]
+    [ActionName(nameof(Deactivate))]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeactivateConfirmed(
+        Guid id)
+    {
+        if (!await _employeeService.DeactivateAsync(id))
+        {
+            return NotFound();
+        }
+
+        TempData["Mensaje"] =
+            "El empleado se desactivó correctamente.";
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Activate(Guid id)
+    {
+        if (!await _employeeService.ActivateAsync(id))
+        {
+            return NotFound();
+        }
+
+        TempData["Mensaje"] =
+            "El empleado se reactivó correctamente.";
 
         return RedirectToAction(nameof(Index));
     }

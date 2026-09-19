@@ -4,7 +4,7 @@ namespace UnderPayroll.Web.Services;
 
 public interface IDepartmentService
 {
-    Task<IEnumerable<DepartmentListItemViewModel>> GetAllAsync(bool soloActivos = false);
+    Task<IEnumerable<DepartmentListItemViewModel>> GetAllAsync(bool? activo = null, string? busqueda = null);
     
     Task<DepartmentDetailsViewModel?> GetDetailsAsync(Guid id);
     
@@ -15,6 +15,8 @@ public interface IDepartmentService
     Task<bool> UpdateAsync(DepartmentFormViewModel modelo);
     
     Task<bool> DeleteAsync(Guid id);
+
+    Task<bool> HasEmployeesAsync(Guid id);
     
     Task<bool> DeactivateAsync(Guid id);
     
