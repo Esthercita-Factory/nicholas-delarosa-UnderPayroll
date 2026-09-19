@@ -131,6 +131,8 @@ public class DepartmentService : IDepartmentService
             Description = department.Description,
             Location = department.Location,
             Budget = department.Budget,
+            Phone = department.Phone,
+            Email = department.Email,
             IsActive = department.IsActive
         };
     }

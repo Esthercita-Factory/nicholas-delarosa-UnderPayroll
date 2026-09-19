@@ -15,27 +15,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f0576972-08bf-4e47-a8f1-b1dcd2708edf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Data/Configurations/EmployeeConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/EmployeeRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Repositories/IEmployeeRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/EmployeeService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/IEmployeeService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/ViewModels/Employees/EmployeeDetailsViewModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/ViewModels/Employees/EmployeeFormViewModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/ViewModels/Employees/EmployeeListItemViewModel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.UnderPayroll/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.UnderPayroll/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Controllers/DepartmentsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Controllers/DepartmentsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Controllers/EmployeesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Controllers/EmployeesController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Data/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Data/ApplicationDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Models/Employee.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Models/Employee.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/DepartmentService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Services/DepartmentService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Create.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Create.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Delete.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Deactivate.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Details.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Details.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Edit.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Edit.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Departments/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/src/UnderPayroll.Web/Views/Employees/Index.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
